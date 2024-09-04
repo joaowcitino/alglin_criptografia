@@ -1,4 +1,5 @@
 import numpy as np
+from flask import Flask, request, jsonify
 
 def para_one_hot(msg: str, alfabeto: str):
     N = len(alfabeto)
@@ -48,9 +49,43 @@ def de_enigma(msg: str, P: np.ndarray, E: np.ndarray, alfabeto: str) -> str:
 
     return para_string(matriz_decriptada, alfabeto)
 
+app = Flask(__name__)
 
+def gerar_matriz_permutacao(alfabeto_len):
+    P = np.eye(alfabeto_len)
+    np.random.shuffle(P)
+    return P
 
+@app.route('/criptografia', methods=['POST'])
+def criptografia():
+    data = request.get_json()
+    mensagem = data.get('mensagem')
+    
+    if not mensagem:
+        return jsonify({'error': 'Mensagem não fornecida'}), 400
 
+    alfabeto = "abcdefghijklmnopqrstuvwxyz "
+    alfabeto_len = len(alfabeto)
+    
+    if any(char not in alfabeto for char in mensagem.lower()):
+        return jsonify({'error': 'A mensagem contém caracteres inválidos'}), 400
 
+    P = gerar_matriz_permutacao(alfabeto_len)
+    E = gerar_matriz_permutacao(alfabeto_len)
+    
+    mensagem_cifrada = cifrar(mensagem, P, alfabeto)
+    print(f"Mensagem cifrada: {mensagem_cifrada}")
+    
+    mensagem_decifrada = de_cifrar(mensagem_cifrada, P, alfabeto)
+    print(f"Mensagem decifrada: {mensagem_decifrada}")
 
+    mensagem_cifrada_enigma = enigma(mensagem, P, E, alfabeto)
+    print(f"Mensagem cifrada com Enigma: {mensagem_cifrada_enigma}")
+    
+    mensagem_decifrada_enigma = de_enigma(mensagem_cifrada_enigma, P, E, alfabeto)
+    print(f"Mensagem decifrada com Enigma: {mensagem_decifrada_enigma}")
+    
+    return jsonify({'mensagem_cifrada': mensagem_cifrada_enigma, 'mensagem_decifrada': mensagem_decifrada, 'mensagem_cifrada_enigma': mensagem_cifrada_enigma, 'mensagem_decifrada_enigma': mensagem_decifrada_enigma })
 
+if __name__ == '__main__':
+    app.run(debug=True)

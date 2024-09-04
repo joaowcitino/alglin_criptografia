@@ -1,5 +1,5 @@
 import numpy as np
-from enigma import cifrar, de_cifrar, enigma, de_enigma
+from main import cifrar, de_cifrar, de_enigma, enigma
 
 def gerar_matriz_permutacao(alfabeto_len):
     P = np.eye(alfabeto_len)
@@ -25,7 +25,6 @@ def demo():
     mensagem_decifrada = de_cifrar(mensagem_cifrada, P, alfabeto)
     print(f"Mensagem decifrada: {mensagem_decifrada}")
 
-    # Cifra e decifra com Enigma
     mensagem_cifrada_enigma = enigma(mensagem, P, E, alfabeto)
     print(f"Mensagem cifrada com Enigma: {mensagem_cifrada_enigma}")
     
