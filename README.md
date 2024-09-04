@@ -69,7 +69,7 @@ O script solicitará uma mensagem para ser cifrada e, em seguida, exibirá a men
 ### Estrutura do Projeto
 
 ```bash
-enigma_library/
+alglin_criptografia/
 │
 ├── enigma/
 │   ├── __init__.py  # Inicializa o pacote
