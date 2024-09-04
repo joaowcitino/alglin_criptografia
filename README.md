@@ -18,7 +18,7 @@ Para instalar a biblioteca, siga os passos abaixo:
 Primeiro, baixe a nossa biblioteca pelo pip utilizando o seguinte comando:
 
 ```bash
-pip install https://github.com/joaowcitino/alglin_criptografia.git
+pip install git+https://github.com/joaowcitino/alglin_criptografia.git
 ```
 
 ### 2. Execute a biblioteca
@@ -26,7 +26,7 @@ pip install https://github.com/joaowcitino/alglin_criptografia.git
 Agora, execute a biblioteca localmente usando o `python`:
 
 ```bash
-enigma
+enigma-server
 ```
 
 Isso irá iniciar o nosso sistema junto com um servidor `flask`.
